@@ -1,10 +1,22 @@
 #include "sys.h"
 #include "motor.h"
 #include "esp8266.h"
-#include "whistle.h"
+#include "buzzer.h"
 
 #define SSID           "\"ESP8266\""
 #define PASSWD         "\"12345678\""
+
+u8 state = SUCCESS;
+
+void Start_ESP8266()
+{
+    while(ESP8266_Check_Connection() != SUCCESS)
+    {Delay_ms(2000);}    //等待接入WiFi
+    while(ESP8266_Connect_TCP() != SUCCESS)
+    {Delay_ms(2000);}    //等待连接至TCP服务器
+    
+    BUZZER_PlayNormalSound();
+}
 
 void response()
 {
@@ -37,24 +49,31 @@ void response()
 
 int main()
 {
-    delay_init();
+    Delay_Config();
     ESP8266_Config(SSID, PASSWD, ESP8266_ECN_WPA2_PSK);
     MOTOR_Config();
-    WHISTLE_Config();
+    BUZZER_Config();
+
+    Start_ESP8266();
     
-    while(ESP8266_Check_Connection() != SUCCESS)
-    {delay_ms(2000);}    //等待接入WiFi
-    while(ESP8266_Connect_TCP() != SUCCESS)
-    {delay_ms(2000);}    //等待连接至TCP服务器
-    
-    ESP8266_Send_Cmd("AT+CIPMODE=1", "OK", 20);
-    ESP8266_Send_Cmd("AT+CIPSEND", "OK", 200);      //开启透传
-    
-    USART_RX_STA = 0;
-    WHISTLE_Tip();
-    
+    u8 count = 0;
     while(1)
     {
+        if(count++ == 5)
+        {
+            count = 0;
+            while(ESP8266_Send_Cmd("AT+CWLIF", "192.168.1.2", 50) != SUCCESS)
+            {
+                state = ERROR;
+                BUZZER_PlayErrorSound();
+                Delay_ms(5000);
+            }
+            if(state == ERROR)
+            {
+                BUZZER_PlayNormalSound();
+                state = SUCCESS;
+            }
+        }
         response();
     }
     return 0;

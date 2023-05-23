@@ -2,7 +2,7 @@
 
 u32 TimingDelay;
 
-void delay_init()
+void Delay_Config()
 {
     //  SystemCoreClock / 1000      1ms÷–∂œ
     //  SystemCoreClock / 10000     10us÷–∂œ
@@ -13,7 +13,7 @@ void delay_init()
     }
 }
 
-void delay_ms(u16 nms)
+void Delay_ms(u16 nms)
 {
     TimingDelay = nms;
     while(TimingDelay);

@@ -446,14 +446,14 @@
               <FilePath>.\User\delay.c</FilePath>
             </File>
             <File>
-              <FileName>whistle.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\whistle.h</FilePath>
+              <FileName>buzzer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\buzzer.c</FilePath>
             </File>
             <File>
-              <FileName>whistle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\whistle.c</FilePath>
+              <FileName>buzzer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\buzzer.h</FilePath>
             </File>
           </Files>
         </Group>

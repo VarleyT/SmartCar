@@ -59,7 +59,7 @@ u8 ESP8266_Send_Cmd(u8 *cmd, u8 *ack, u16 waittime)
     {
         while(--waittime)	//等待倒计时
         {
-            delay_ms(10);
+            Delay_ms(10);
             if(USART_RX_STA & 0X8000) //接收到期待的应答结果
             {
                 if(ESP8266_Check_Cmd(ack))
@@ -82,12 +82,12 @@ u8 ESP8266_Quit_Trans()
 {
     while((USARTx->SR & 0X40) == 0);	//等待发送空
     USARTx->DR = '+';
-    delay_ms(15);					//大于串口组帧时间(10ms)
+    Delay_ms(15);					//大于串口组帧时间(10ms)
     while((USARTx->SR & 0X40) == 0);	//等待发送空
     USARTx->DR = '+';
-    delay_ms(15);					//大于串口组帧时间(10ms)
+    Delay_ms(15);					//大于串口组帧时间(10ms)
     while((USARTx->SR & 0X40) == 0);	//等待发送空
     USARTx->DR = '+';
-    delay_ms(500);					//等待500ms
+    Delay_ms(500);					//等待500ms
     return ESP8266_Send_Cmd("AT", "OK", 20); //退出透传判断.
 }
