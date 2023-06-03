@@ -42,6 +42,13 @@ void response()
         else if(ESP8266_Check_Cmd("stop") == SUCCESS)
         {
             MOTOR_SetDirection(MOTOR_DIRECTION_STOP);
+        }else if(ESP8266_Check_Cmd("pwm") == SUCCESS)
+        {
+            u8 *ch = strchr(USART_RX_BUF, '=');
+            if(ch != NULL)
+            {
+                MOTOR_SetSpeed(atoi(ch+1));
+            }
         }
         USART_RX_STA = 0;
     }

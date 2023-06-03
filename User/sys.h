@@ -2,6 +2,7 @@
 #define __SYS_H
 
 #include "stm32f10x.h"
+#include "stdlib.h"
 
 #define HIGH       1
 #define LOW        0

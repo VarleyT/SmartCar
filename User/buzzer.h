@@ -6,7 +6,7 @@
 
 #define BUZZER_CLK                     RCC_APB2Periph_GPIOB
 #define BUZZER_PORT                    GPIOB
-#define BUZZER_GPIO_Pin                GPIO_Pin_0
+#define BUZZER_GPIO_Pin                GPIO_Pin_10
 
 #define BUZZER_NORMAL_DURATION         120
 #define BUZZER_ERROR_DURATION          500
