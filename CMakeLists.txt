@@ -1,0 +1,89 @@
+cmake_minimum_required(VERSION 3.22)
+project(car_for_cpp)
+
+set(CMAKE_CXX_STANDARD 11)
+
+include_directories(Drivers/inc)
+include_directories(Library/inc)
+include_directories(Start)
+include_directories(System/inc)
+include_directories(User)
+
+add_definitions(-DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD)
+
+add_executable(car_for_cpp
+        Drivers/inc/buzzer.h
+        Drivers/inc/esp8266.h
+        Drivers/inc/led.h
+        Drivers/inc/motor.h
+        Drivers/inc/oled.h
+        Drivers/inc/oledlib.h
+        Drivers/inc/obstacle.h
+        Drivers/inc/dht11.h
+        Drivers/buzzer.cpp
+        Drivers/esp8266.cpp
+        Drivers/led.cpp
+        Drivers/motor.cpp
+        Drivers/oled.cpp
+        Drivers/obstacle.cpp
+        Drivers/dht11.cpp
+        Library/inc/misc.h
+        Library/inc/stm32f10x_adc.h
+        Library/inc/stm32f10x_bkp.h
+        Library/inc/stm32f10x_can.h
+        Library/inc/stm32f10x_cec.h
+        Library/inc/stm32f10x_crc.h
+        Library/inc/stm32f10x_dac.h
+        Library/inc/stm32f10x_dbgmcu.h
+        Library/inc/stm32f10x_dma.h
+        Library/inc/stm32f10x_exti.h
+        Library/inc/stm32f10x_flash.h
+        Library/inc/stm32f10x_fsmc.h
+        Library/inc/stm32f10x_gpio.h
+        Library/inc/stm32f10x_i2c.h
+        Library/inc/stm32f10x_iwdg.h
+        Library/inc/stm32f10x_pwr.h
+        Library/inc/stm32f10x_rcc.h
+        Library/inc/stm32f10x_rtc.h
+        Library/inc/stm32f10x_sdio.h
+        Library/inc/stm32f10x_spi.h
+        Library/inc/stm32f10x_tim.h
+        Library/inc/stm32f10x_usart.h
+        Library/inc/stm32f10x_wwdg.h
+        Library/misc.c
+        Library/stm32f10x_adc.c
+        Library/stm32f10x_bkp.c
+        Library/stm32f10x_can.c
+        Library/stm32f10x_cec.c
+        Library/stm32f10x_crc.c
+        Library/stm32f10x_dac.c
+        Library/stm32f10x_dbgmcu.c
+        Library/stm32f10x_dma.c
+        Library/stm32f10x_exti.c
+        Library/stm32f10x_flash.c
+        Library/stm32f10x_fsmc.c
+        Library/stm32f10x_gpio.c
+        Library/stm32f10x_i2c.c
+        Library/stm32f10x_iwdg.c
+        Library/stm32f10x_pwr.c
+        Library/stm32f10x_rcc.c
+        Library/stm32f10x_rtc.c
+        Library/stm32f10x_sdio.c
+        Library/stm32f10x_spi.c
+        Library/stm32f10x_tim.c
+        Library/stm32f10x_usart.c
+        Library/stm32f10x_wwdg.c
+        Start/core_cm3.c
+        Start/core_cm3.h
+        Start/stm32f10x.h
+        Start/system_stm32f10x.c
+        Start/system_stm32f10x.h
+        System/inc/delay.h
+        System/inc/sys.h
+        System/inc/usart1.h
+        System/delay.cpp
+        System/usart1.cpp
+        User/main.cpp
+        User/stm32f10x_conf.h
+        User/stm32f10x_it.c
+        User/stm32f10x_it.h)
