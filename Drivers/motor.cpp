@@ -5,7 +5,7 @@
 #include "motor.h"
 
 MOTOR::MOTOR() {
-    this->current_direction = MOTOR_DIRECTION_FORWARD;
+    this->current_direction = MOTOR_DIRECTION_STOP;
     this->current_pwm_l = 50;
     this->current_pwm_r = 50;
     MOTOR_APBxClockCmd(MOTOR_CLK, ENABLE);
@@ -46,51 +46,53 @@ MOTOR::MOTOR() {
 }
 
 void MOTOR::setDirection(MOTOR_DIRECTION direction) {
+    if (direction == getDirection()){
+        return;
+    }
     switch (direction) {
         case MOTOR_DIRECTION_STOP:
-            current_direction = MOTOR_DIRECTION_STOP;
             GPIO_ResetBits(MOTOR_PORT, MOTOR_GPIO_Pin_Left1 | MOTOR_GPIO_Pin_Left2 |
                                        MOTOR_GPIO_Pin_Right1 | MOTOR_GPIO_Pin_Right2);
             break;
         case MOTOR_DIRECTION_FORWARD:
             GPIO_SetBits(MOTOR_PORT, MOTOR_GPIO_Pin_Left1 | MOTOR_GPIO_Pin_Right1);
             GPIO_ResetBits(MOTOR_PORT, MOTOR_GPIO_Pin_Left2 | MOTOR_GPIO_Pin_Right2);
-            current_direction = MOTOR_DIRECTION_FORWARD;
             break;
         case MOTOR_DIRECTION_BACKWARD:
             GPIO_ResetBits(MOTOR_PORT, MOTOR_GPIO_Pin_Left1 | MOTOR_GPIO_Pin_Right1);
             GPIO_SetBits(MOTOR_PORT, MOTOR_GPIO_Pin_Left2 | MOTOR_GPIO_Pin_Right2);
-            current_direction = MOTOR_DIRECTION_BACKWARD;
             break;
         case MOTOR_DIRECTION_LEFT:
             GPIO_ResetBits(MOTOR_PORT, MOTOR_GPIO_Pin_Left1 | MOTOR_GPIO_Pin_Right2);
             GPIO_SetBits(MOTOR_PORT, MOTOR_GPIO_Pin_Left2 | MOTOR_GPIO_Pin_Right1);
-            current_direction = MOTOR_DIRECTION_LEFT;
             break;
         case MOTOR_DIRECTION_RIGHT:
             GPIO_SetBits(MOTOR_PORT, MOTOR_GPIO_Pin_Left1 | MOTOR_GPIO_Pin_Right2);
             GPIO_ResetBits(MOTOR_PORT, MOTOR_GPIO_Pin_Left2 | MOTOR_GPIO_Pin_Right1);
-            current_direction = MOTOR_DIRECTION_RIGHT;
             break;
     }
-}
-
-MOTOR_DIRECTION MOTOR::getDirection() const {
-    return current_direction;
+    this->current_direction = direction;
 }
 
 void MOTOR::setSpeed(u16 pwm_l,u16 pwm_r) {
-    this->current_pwm_l = pwm_l;
-    this->current_pwm_r = pwm_r;
-    TIM_SetCompare3(MOTOR_TIMx, this->current_pwm_l);
-    TIM_SetCompare4(MOTOR_TIMx, this->current_pwm_r);
+    if (pwm_l != getSpeed_l()) {
+        this->current_pwm_l = pwm_l;
+        TIM_SetCompare3(MOTOR_TIMx, this->current_pwm_l);
+    }
+    if (pwm_r != getSpeed_r()) {
+        this->current_pwm_r = pwm_r;
+        TIM_SetCompare4(MOTOR_TIMx, this->current_pwm_r);
+    }
 }
 
-
 u16 MOTOR::getSpeed_l() const {
-    return current_pwm_l;
+    return this->current_pwm_l;
 }
 
 u16 MOTOR::getSpeed_r() const {
-    return current_pwm_r;
+    return this->current_pwm_r;
+}
+
+MOTOR_DIRECTION MOTOR::getDirection() const {
+    return this->current_direction;
 }

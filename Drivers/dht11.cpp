@@ -59,8 +59,8 @@ DHT11Data_Struct DHT11::getData() {
         buf[3] = receiveByteData();
         buf[4] = receiveByteData();
         if (buf[0] + buf[1] + buf[2] + buf[3] == buf[4]) {
-            return {static_cast<float>(buf[0] + (buf[1] % 100) * 0.01),
-                    static_cast<float>(buf[2] + (buf[3] % 100) * 0.01)};
+            return {static_cast<float>(buf[0] + (buf[1] % 10) * 0.1),
+                    static_cast<float>(buf[2] + (buf[3] % 10) * 0.1)};
         }
     }
     return {};
